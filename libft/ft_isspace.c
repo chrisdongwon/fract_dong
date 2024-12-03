@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   complex.h                                          :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 15:08:44 by cwon              #+#    #+#             */
-/*   Updated: 2024/11/27 20:30:01 by cwon             ###   ########.fr       */
+/*   Created: 2024/12/03 21:19:28 by cwon              #+#    #+#             */
+/*   Updated: 2024/12/03 21:21:26 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPLEX_H
-# define COMPLEX_H
+#include "libft.h"
 
-#include <math.h>
-
-typedef struct s_complex
+int	ft_isspace(int c)
 {
-	double	real;
-	double	imaginary;
-}	t_complex;
-
-t_complex	new_complex(double re, double im);
-t_complex	add(t_complex x, t_complex y);
-t_complex	multiply(t_complex x, t_complex y);
-double		complex_abs(t_complex z);
-
-#endif
+	return ((9 <= c && c <= 13) || (c == 32));
+}

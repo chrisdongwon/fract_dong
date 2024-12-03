@@ -5,72 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 13:50:30 by cwon              #+#    #+#             */
-/*   Updated: 2024/11/27 21:03:48 by cwon             ###   ########.fr       */
+/*   Created: 2024/12/02 21:45:40 by cwon              #+#    #+#             */
+/*   Updated: 2024/12/03 22:33:00 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-#include <mlx.h>
-#include "libft/libft.h"
+# include <math.h>
+# include <mlx.h>
+# include "libft/libft.h"
 
-# define SIZE 700
+# define SIZE 500
+# define ITERATION 75
+# define SCALE 200
+# define ZOOM_FACTOR 1.05
 
-// KEYCODES
-# define ESC 53
-# define UP 126
-# define DOWN 125
-# define LEFT 123
-# define RIGHT 124
-# define R 15
-# define C 8
-# define H 4
-# define J 38
-# define P 35
-# define M 46
-
-// MOUSECODES
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 
-typedef struct s_fractal
+# define ESC 65307
+# define LEFT 65361
+# define UP 65362
+# define RIGHT 65363
+# define DOWN 65364
+
+# define SPACE 32
+
+// bpp: bits per pixel
+// ll: line length
+typedef struct s_fractol
 {
 	void	*mlx;
 	void	*window;
-	void	*image;
-	void	*pointer_to_image;
-	int		bits_per_pixel;
-	int		size_line;
+
+	void	*img;
+	void	*img_ptr;
+	int		bpp;
+	int		ll;
 	int		endian;
+
+	char	*name;
+	int		color;
+
 	int		x;
 	int		y;
-	double	zx;
-	double	zy;
-	double	cx;
-	double	cy;
-	int		color;
+
+	double	scale;
 	double	offset_x;
 	double	offset_y;
-	double	zoom;
-	char	*name;
-	int		max_iterations;
-}			t_fractal;
 
-void		put_color_to_pixel(t_fractal *fractal, int x, int y, int colour);
-int			exit_fractal(t_fractal *fractal);
+	double	zx;
+	double	zy;
 
-void		init_fractal(t_fractal *fractal);
-void		init_mlx(t_fractal *fractal);
+	double	init_cx;
+	double	init_cy;
+	double	cx;
+	double	cy;
+}	t_fractol;
 
-void		calculate_mandelbrot(t_fractal *fractal);
+// fractol.c
+void	fractol(int argc, char **argv);
+int		flush_fractol(t_fractol *f);
+int		plot(t_fractol *f);
 
-int			draw_fractal(t_fractal *fractal, char *query);
+// hook.c
+int		scroll_hook(int code, int x, int y, t_fractol *f);
+int		key_hook(int code, t_fractol *f);
 
-int			key_hook(int key_code, t_fractal *fractal);
-int			mouse_hook(int mouse_code, int x, int y, t_fractal *fractal);
+// mandelbrot.c
+void	plot_mandelbrot(t_fractol *f);
 
-void		*draw_mandelbrot(void *fractal_void);
+// julia.c
+void	plot_julia(t_fractol *f);
+
+// burning_ship.c
+void	plot_burning_ship(t_fractol *f);
 
 #endif

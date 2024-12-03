@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2024/11/21 20:39:12 by cwon             ###   ########.fr       */
+/*   Updated: 2024/12/03 21:19:59 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_isspace(int c);
 int		ft_ismember(const char c, const char *str);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
@@ -68,6 +69,7 @@ char	**ft_split(const char *s, char c);
 
 // conversion functions
 int		ft_atoi(const char *ntpr);
+double	ft_atof(const char *nptr);
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);
 int		ft_isinteger(const char *str);

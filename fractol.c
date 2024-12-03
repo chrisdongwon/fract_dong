@@ -5,153 +5,72 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 13:50:25 by cwon              #+#    #+#             */
-/*   Updated: 2024/11/27 21:12:07 by cwon             ###   ########.fr       */
+/*   Created: 2024/12/02 21:50:50 by cwon              #+#    #+#             */
+/*   Updated: 2024/12/03 22:13:05 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	*draw_mandelbrot(void *fractal_void)
+int	flush_fractol(t_fractol *f)
 {
-	t_fractal	*fractal;
-
-	fractal = (t_fractal *)fractal_void;
-	fractal->x = 0;
-	fractal->y = 0;
-	while (fractal->x < SIZE)
-	{
-		while (fractal->y < SIZE)
-		{
-			calculate_mandelbrot(fractal);
-			fractal->y++;
-		}
-		fractal->x++;
-		fractal->y = 0;
-	}
-	return (NULL);
-}
-
-int	exit_fractal(t_fractal *fractal)
-{
-	mlx_destroy_image(fractal->mlx, fractal->image);
-	mlx_destroy_window(fractal->mlx, fractal->window);
-	free(fractal->mlx);
-	free(fractal);
-	exit(1);
+	mlx_destroy_image(f->mlx, f->img);
+	mlx_destroy_window(f->mlx, f->window);
+	free(f->mlx);
+	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-void	put_color_to_pixel(t_fractal *fractal, int x, int y, int color)
+static void	init_values(t_fractol *f, char **argv)
 {
-	int	*buffer;
-
-	buffer = fractal->pointer_to_image;
-	buffer[(y * fractal->size_line / 4) + x] = color;
+	if (!ft_strncmp(f->name, "julia", 6))
+	{
+		f->init_cx = ft_atof(argv[2]);
+		f->init_cy = ft_atof(argv[3]);
+	}
 }
 
-void	zoom(t_fractal *fractal, int x, int y, int zoom)
+static void	init_fractol(t_fractol *f, int argc, char **argv)
 {
-	double	zoom_level;
-
-	zoom_level = 1.42;
-	if (zoom == 1)
-	{
-		fractal->offset_x = (x / fractal->zoom + fractal->offset_x) - (x
-				/ (fractal->zoom * zoom_level));
-		fractal->offset_y = (y / fractal->zoom + fractal->offset_y) - (y
-				/ (fractal->zoom * zoom_level));
-		fractal->zoom *= zoom_level;
-	}
-	else if (zoom == -1)
-	{
-		fractal->offset_x = (x / fractal->zoom + fractal->offset_x) - (x
-				/ (fractal->zoom / zoom_level));
-		fractal->offset_y = (y / fractal->zoom + fractal->offset_y) - (y
-				/ (fractal->zoom / zoom_level));
-		fractal->zoom /= zoom_level;
-	}
-	else
-		return ;
+	f->mlx = mlx_init();
+	f->window = mlx_new_window(f->mlx, SIZE, SIZE, "Fract'ol");
+	f->img = mlx_new_image(f->mlx, SIZE, SIZE);
+	f->img_ptr = mlx_get_data_addr(f->img, &f->bpp, &f->ll, &f->endian);
+	if (argc == 2 && (!ft_strncmp(argv[1], "mandelbrot", 11)))
+		f->name = argv[1];
+	else if (argc == 4 && (!ft_strncmp(argv[1], "julia", 6)))
+		f->name = argv[1];
+	else if (argc == 2 && (!ft_strncmp(argv[1], "burning_ship", 13)))
+		f->name = argv[1];
+	f->color = 0xFCBE11;
+	f->x = 0;
+	f->y = 0;
+	f->scale = SCALE;
+	f->offset_x = (-SIZE / 2) / f->scale;
+	f->offset_y = f->offset_x;
+	init_values(f, argv);
+	mlx_mouse_hook(f->window, scroll_hook, f);
+	mlx_key_hook(f->window, key_hook, f);
+	mlx_hook(f->window, 17, 0L, flush_fractol, f);
 }
 
-int	key_hook(int key_code, t_fractal *fractal)
+int	plot(t_fractol *f)
 {
-	if (key_code == ESC)
-		exit(1);
-	else if (key_code == LEFT)
-		fractal->offset_x -= 42 / fractal->zoom;
-	else if (key_code == RIGHT)
-		fractal->offset_x += 42 / fractal->zoom;
-	else if (key_code == UP)
-		fractal->offset_y -= 42 / fractal->zoom;
-	else if (key_code == DOWN)
-		fractal->offset_y += 42 / fractal->zoom;
-	else if (key_code == R)
-		init_fractal(fractal);
-	else if (key_code == C)
-		fractal->color += (255 * 255 * 255) / 100;
-	// else if (key_code == J)
-	// 	set_random_julia(&fractal->cx, &fractal->cx);
-	// else if (key_code == M || key_code == P)
-	// 	change_iterations(fractal, key_code);
-	draw_fractal(fractal, fractal->name);
+	if (!ft_strncmp(f->name, "mandelbrot", 11))
+		plot_mandelbrot(f);
+	if (!ft_strncmp(f->name, "julia", 6))
+		plot_julia(f);
+	if (!ft_strncmp(f->name, "burning_ship", 13))
+		plot_burning_ship(f);
+	mlx_put_image_to_window(f->mlx, f->window, f->img, 0, 0);
 	return (0);
 }
 
-int	mouse_hook(int mouse_code, int x, int y, t_fractal *fractal)
+void	fractol(int argc, char **argv)
 {
-	if (mouse_code == SCROLL_UP)
-		zoom(fractal, x, y, 1);
-	else if (mouse_code == SCROLL_DOWN)
-		zoom(fractal, x, y, -1);
-	draw_fractal(fractal, fractal->name);
-	return (0);
-}
+	t_fractol	f;
 
-void	init_fractal(t_fractal *fractal)
-{
-	fractal->x = 0;
-	fractal->y = 0;
-	fractal->color = 0xFCBE11;
-	fractal->zoom = 300;
-	fractal->offset_x = -1.21;
-	fractal->offset_y = -1.21;
-	fractal->max_iterations = 42;
-}
-
-void	init_mlx(t_fractal *fractal)
-{
-	fractal->mlx = mlx_init();
-	fractal->window = mlx_new_window(fractal->mlx, SIZE, SIZE, "Fract-ol");
-	fractal->image = mlx_new_image(fractal->mlx, SIZE, SIZE);
-	fractal->pointer_to_image = mlx_get_data_addr(fractal->image,
-			&fractal->bits_per_pixel,
-			&fractal->size_line,
-			&fractal->endian);
-}
-
-void calculate_mandelbrot(t_fractal *fractal)
-{
-	int i;
-	double x_temp;
-
-	fractal->name = "mandel";
-	i = 0;
-	fractal->zx = 0.0;
-	fractal->zy = 0.0;
-	fractal->cx = (fractal->x / fractal->zoom) + fractal->offset_x;
-	fractal->cy = (fractal->y / fractal->zoom) + fractal->offset_y;
-	while (++i < fractal->max_iterations)
-	{
-		x_temp = fractal->zx * fractal->zx - fractal->zy * fractal->zy + fractal->cx;
-		fractal->zy = 2. * fractal->zx * fractal->zy + fractal->cy;
-		fractal->zx = x_temp;
-		if (fractal->zx * fractal->zx + fractal->zy * fractal->zy >= __DBL_MAX__)
-			break;
-	}
-	if (i == fractal->max_iterations)
-		put_color_to_pixel(fractal, fractal->x, fractal->y, 0x000000);
-	else
-		put_color_to_pixel(fractal, fractal->x, fractal->y, (fractal->color * i));
+	init_fractol(&f, argc, argv);
+	plot(&f);
+	mlx_loop(f.mlx);
 }
