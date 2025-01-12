@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:40:25 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 13:01:05 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/12 15:37:00 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	is_valid_argument(int argc, char **argv)
 	int	burning_ship;
 
 	mandelbrot = (argc == 2) && (!ft_strncmp(argv[1], "mandelbrot", 11));
-	julia = (argc == 4) && (!ft_strncmp(argv[1], "julia", 6));
+	julia = (argc == 4) && (!ft_strncmp(argv[1], "julia", 6)) && \
+		ft_isnumeric(argv[2]) && ft_isnumeric(argv[3]);
 	burning_ship = (argc == 2) && (!ft_strncmp(argv[1], "burning_ship", 13));
 	return (mandelbrot || julia || burning_ship);
 }

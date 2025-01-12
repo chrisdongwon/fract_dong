@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2024/12/03 21:19:59 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/12 15:21:35 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ double	ft_atof(const char *nptr);
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);
 int		ft_isinteger(const char *str);
+int		ft_isnumeric(const char *str);
 
 // memory functions
 void	*ft_memset(void *s, int c, size_t n);
