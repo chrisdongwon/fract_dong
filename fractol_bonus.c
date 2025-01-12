@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.c                                          :+:      :+:    :+:   */
+/*   fractol_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:50:50 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 13:19:33 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/12 12:58:11 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 int	flush_fractol(t_fractol *f)
 {
@@ -40,6 +40,8 @@ static void	init_fractol(t_fractol *f, int argc, char **argv)
 		f->name = argv[1];
 	else if (argc == 4 && (!ft_strncmp(argv[1], "julia", 6)))
 		f->name = argv[1];
+	else if (argc == 2 && (!ft_strncmp(argv[1], "burning_ship", 13)))
+		f->name = argv[1];
 	f->color = 0xFCBE11;
 	f->x = 0;
 	f->y = 0;
@@ -58,6 +60,8 @@ int	plot(t_fractol *f)
 		plot_mandelbrot(f);
 	if (!ft_strncmp(f->name, "julia", 6))
 		plot_julia(f);
+	if (!ft_strncmp(f->name, "burning_ship", 13))
+		plot_burning_ship(f);
 	mlx_put_image_to_window(f->mlx, f->window, f->img, 0, 0);
 	return (0);
 }

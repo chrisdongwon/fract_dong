@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   burning_ship_bonus.c                               :+:      :+:    :+:   */
+/*   mandelbrot_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 22:13:44 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 12:58:07 by cwon             ###   ########.fr       */
+/*   Created: 2024/12/03 09:27:26 by cwon              #+#    #+#             */
+/*   Updated: 2025/01/12 13:53:32 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static inline void	color_pixel(t_fractol *f, int x, int y, int color)
 	*((int *)(f->img_ptr + (y * f->ll + x * (f->bpp / 8)))) = color;
 }
 
-static inline void	burning_ship(t_fractol *f)
+static inline void	mandelbrot(t_fractol *f)
 {
 	double	temp;
 	int		i;
@@ -30,7 +30,7 @@ static inline void	burning_ship(t_fractol *f)
 	while (++i < ITERATION && f->zx * f->zx + f->zy * f->zy <= 4)
 	{
 		temp = f->zx * f->zx - f->zy * f->zy + f->cx;
-		f->zy = fabs(2 * f->zx * f->zy) + f->cy;
+		f->zy = 2 * f->zx * f->zy + f->cy;
 		f->zx = temp;
 	}
 	if (i == ITERATION)
@@ -39,13 +39,13 @@ static inline void	burning_ship(t_fractol *f)
 		color_pixel(f, f->x, f->y, f->color * i);
 }
 
-void	plot_burning_ship(t_fractol *f)
+void	plot_mandelbrot(t_fractol *f)
 {
 	f->x = -1;
 	while (++(f->x) < SIZE)
 	{
 		f->y = -1;
 		while (++(f->y) < SIZE)
-			burning_ship(f);
+			mandelbrot(f);
 	}
 }

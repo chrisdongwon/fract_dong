@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   burning_ship_bonus.c                               :+:      :+:    :+:   */
+/*   julia_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 22:13:44 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 12:58:07 by cwon             ###   ########.fr       */
+/*   Created: 2024/12/03 21:01:51 by cwon              #+#    #+#             */
+/*   Updated: 2025/01/12 13:53:26 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ static inline void	color_pixel(t_fractol *f, int x, int y, int color)
 	*((int *)(f->img_ptr + (y * f->ll + x * (f->bpp / 8)))) = color;
 }
 
-static inline void	burning_ship(t_fractol *f)
+static inline void	julia(t_fractol *f)
 {
 	double	temp;
 	int		i;
 
-	f->zx = 0;
-	f->zy = 0;
-	f->cx = (f->x / f->scale) + f->offset_x;
-	f->cy = (f->y / f->scale) + f->offset_y;
+	f->zx = (f->x / f->scale) + f->offset_x;
+	f->zy = (f->y / f->scale) + f->offset_y;
+	f->cx = f->init_cx;
+	f->cy = f->init_cy;
 	i = -1;
-	while (++i < ITERATION && f->zx * f->zx + f->zy * f->zy <= 4)
+	while (++i < ITERATION && f->zx * f->zx + f->zy * f->zy < __DBL_MAX__)
 	{
 		temp = f->zx * f->zx - f->zy * f->zy + f->cx;
-		f->zy = fabs(2 * f->zx * f->zy) + f->cy;
+		f->zy = 2 * f->zx * f->zy + f->cy;
 		f->zx = temp;
 	}
 	if (i == ITERATION)
@@ -39,13 +39,13 @@ static inline void	burning_ship(t_fractol *f)
 		color_pixel(f, f->x, f->y, f->color * i);
 }
 
-void	plot_burning_ship(t_fractol *f)
+void	plot_julia(t_fractol *f)
 {
 	f->x = -1;
 	while (++(f->x) < SIZE)
 	{
 		f->y = -1;
 		while (++(f->y) < SIZE)
-			burning_ship(f);
+			julia(f);
 	}
 }

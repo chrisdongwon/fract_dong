@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   fractol_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:45:40 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 13:48:55 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/12 13:53:52 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#ifndef FRACTOL_BONUS_H
+# define FRACTOL_BONUS_H
 
 # include <math.h>
 # include <mlx.h>
@@ -26,6 +26,12 @@
 # define SCROLL_DOWN 5
 
 # define ESC 65307
+# define LEFT 65361
+# define UP 65362
+# define RIGHT 65363
+# define DOWN 65364
+
+# define SPACE 32
 
 // bpp: bits per pixel
 // ll: line length
@@ -59,19 +65,22 @@ typedef struct s_fractol
 	double	cy;
 }	t_fractol;
 
-// fractol.c
+// fractol_bonus.c
 void	fractol(int argc, char **argv);
 int		flush_fractol(t_fractol *f);
 int		plot(t_fractol *f);
 
-// hook.c
+// hook_bonus.c
 int		scroll_hook(int code, int x, int y, t_fractol *f);
 int		key_hook(int code, t_fractol *f);
 
-// mandelbrot.c
+// mandelbrot_bonus.c
 void	plot_mandelbrot(t_fractol *f);
 
-// julia.c
+// julia_bonus.c
 void	plot_julia(t_fractol *f);
+
+// burning_ship_bonus.c
+void	plot_burning_ship(t_fractol *f);
 
 #endif

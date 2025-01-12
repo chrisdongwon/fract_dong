@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hook.c                                             :+:      :+:    :+:   */
+/*   hook_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:08:43 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 13:42:43 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/12 12:58:44 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 static inline void	rescale(t_fractol *f, int x, int y, double factor)
 {
@@ -33,6 +33,16 @@ int	key_hook(int code, t_fractol *f)
 {
 	if (code == ESC)
 		flush_fractol(f);
+	else if (code == LEFT)
+		f->offset_x -= (SIZE / 10) / f->scale;
+	else if (code == RIGHT)
+		f->offset_x += (SIZE / 10) / f->scale;
+	else if (code == UP)
+		f->offset_y -= (SIZE / 10) / f->scale;
+	else if (code == DOWN)
+		f->offset_y += (SIZE / 10) / f->scale;
+	else if (code == SPACE)
+		f->color += (255 * 255 * 255) / 100;
 	plot(f);
 	return (0);
 }
