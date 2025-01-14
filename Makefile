@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:53:51 by cwon              #+#    #+#              #
-#    Updated: 2025/01/12 13:54:05 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/14 14:07:24 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,7 @@ bonus_header = fractol_bonus.h
 
 all: $(lib_path) $(NAME)
 
-bonus: $(bonus_src) $(bonus_obj) $(bonus_header) $(lib_path)
-	$(CC) $(CFLAGS) $(bonus_obj) -Lminilibx-linux -lmlx_Linux -L/usr/lib \
-	-lXext -lX11 -lm -lz -o $(NAME) $(lib_path)
+bonus: $(lib_path) $(bonus_name)
 
 $(lib_path):
 	make -C $(lib_dir)
@@ -52,6 +50,10 @@ $(lib_path):
 
 $(NAME): $(src) $(obj) $(header) $(lib_path)
 	$(CC) $(CFLAGS) $(obj) -Lminilibx-linux -lmlx_Linux -L/usr/lib \
+	-lXext -lX11 -lm -lz -o $(NAME) $(lib_path)
+
+$(bonus_name): $(bonus_src) $(bonus_obj) $(bonus_header) $(lib_path)
+	$(CC) $(CFLAGS) $(bonus_obj) -Lminilibx-linux -lmlx_Linux -L/usr/lib \
 	-lXext -lX11 -lm -lz -o $(NAME) $(lib_path)
 
 clean:
