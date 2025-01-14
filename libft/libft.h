@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 15:05:50 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/12 15:21:35 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/14 10:09:27 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	**ft_split(const char *s, char c);
 
 // conversion functions
-int		ft_atoi(const char *ntpr);
+int		ft_atoi(const char *nptr);
 double	ft_atof(const char *nptr);
 char	*ft_itoa(int n);
 char	*ft_utoa(unsigned int n);
-int		ft_isinteger(const char *str);
-int		ft_isnumeric(const char *str);
+int		ft_isfloat(const char *nptr);
+int		ft_isinteger(const char *nptr);
 
 // memory functions
 void	*ft_memset(void *s, int c, size_t n);

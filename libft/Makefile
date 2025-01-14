@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 16:52:39 by cwon              #+#    #+#              #
-#    Updated: 2025/01/12 15:35:36 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/14 10:09:10 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ src = \
 	ft_isalpha.c \
 	ft_isascii.c \
 	ft_isdigit.c \
+	ft_isfloat.c \
 	ft_isinteger.c \
 	ft_ismember.c \
-	ft_isnumeric.c \
 	ft_isprint.c \
 	ft_isspace.c \
 	ft_itoa.c \
@@ -65,7 +65,8 @@ src = \
 	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
-	ft_utoa.c \
+	ft_utoa.c
+printf_src = \
 	ft_printf/convert.c \
 	ft_printf/convert_literal.c \
 	ft_printf/convert_pointer.c \
@@ -74,16 +75,18 @@ src = \
 	ft_printf/convert_hex.c \
 	ft_printf/convert_numeric.c \
 	ft_printf/extract.c
-obj = $(src:.c=.o)
+
+obj = $(src:.c=.o) $(printf_src:.c=.o)
 
 NAME = libft.a
+header = libft.h
 
 all: $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(obj)
+$(NAME): $(obj) $(header)
 	ar -rcs $(NAME) $(obj)
 
 clean:
