@@ -6,64 +6,57 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:53:51 by cwon              #+#    #+#              #
-#    Updated: 2025/01/14 14:07:24 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/15 13:17:24 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iminilibx-linux -O3
+NAME = fractol
 
-src = \
-	main.c \
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -O3
+
+SRC = \
 	fractol.c \
 	hook.c \
-	mandelbrot.c \
-	julia.c
-obj = $(src:.c=.o)
+	julia.c \
+	main.c \
+	mandelbrot.c
+OBJ = $(SRC:.c=.o)
 
-bonus_src = \
-	main_bonus.c \
+BONUS_SRC = \
+	burning_ship_bonus.c \
 	fractol_bonus.c \
 	hook_bonus.c \
-	mandelbrot_bonus.c \
 	julia_bonus.c \
-	burning_ship_bonus.c
-bonus_obj = $(bonus_src:.c=.o)
-
-lib_dir = libft
-lib_name = libft.a
-lib_path = $(lib_dir)/$(lib_name)
-
-NAME = fractol
-header = fractol.h
-bonus_header = fractol_bonus.h
-
-all: $(lib_path) $(NAME)
-
-bonus: $(lib_path) $(bonus_name)
-
-$(lib_path):
-	make -C $(lib_dir)
+	main_bonus.c \
+	mandelbrot_bonus.c
+BONUS_OBJ = $(BONUS_SRC:.c=.o)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I/usr/include -c $< -o $@
+	$(CC) $(CFLAGS) -I/usr/include -Iminilibx-linux -c $< -o $@
 
-$(NAME): $(src) $(obj) $(header) $(lib_path)
-	$(CC) $(CFLAGS) $(obj) -Lminilibx-linux -lmlx_Linux -L/usr/lib \
-	-lXext -lX11 -lm -lz -o $(NAME) $(lib_path)
+all: $(NAME)
 
-$(bonus_name): $(bonus_src) $(bonus_obj) $(bonus_header) $(lib_path)
-	$(CC) $(CFLAGS) $(bonus_obj) -Lminilibx-linux -lmlx_Linux -L/usr/lib \
-	-lXext -lX11 -lm -lz -o $(NAME) $(lib_path)
+$(NAME): $(OBJ)
+	make -C libft
+	$(CC) $(OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
+	-lXext -lX11 -lm -lz -o $(NAME) libft/libft.a
+
+bonus: $(NAME)_bonus
+
+$(NAME)_bonus: $(BONUS_OBJ)
+	make -C libft
+	$(CC) $(BONUS_OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
+	-lXext -lX11 -lm -lz -o $(NAME)_bonus libft/libft.a
 
 clean:
-	make clean -C $(lib_dir)
-	rm -f $(obj) $(bonus_obj)
+	make clean -C libft
+	rm -f $(OBJ) $(BONUS_OBJ)
 
 fclean: clean
-	make fclean -C $(lib_dir)
-	rm -f $(NAME)
+	make fclean -C libft
+	rm -f $(NAME) $(NAME)_bonus
 
 re: fclean all
 
-.PHONY: all clean fclean re libft bonus
+.PHONY: all clean fclean re
