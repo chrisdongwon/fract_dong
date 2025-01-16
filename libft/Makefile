@@ -6,14 +6,17 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 16:52:39 by cwon              #+#    #+#              #
-#    Updated: 2025/01/14 10:09:10 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/16 18:53:17 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NAME = libft.a
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-src = \
+HEADER = libft.h
+SRC = \
 	ft_abs.c \
 	ft_atof.c \
 	ft_atoi.c \
@@ -66,7 +69,7 @@ src = \
 	ft_tolower.c \
 	ft_toupper.c \
 	ft_utoa.c
-printf_src = \
+PRINTF_SRC = \
 	ft_printf/convert.c \
 	ft_printf/convert_literal.c \
 	ft_printf/convert_pointer.c \
@@ -75,22 +78,18 @@ printf_src = \
 	ft_printf/convert_hex.c \
 	ft_printf/convert_numeric.c \
 	ft_printf/extract.c
-
-obj = $(src:.c=.o) $(printf_src:.c=.o)
-
-NAME = libft.a
-header = libft.h
+OBJ = $(SRC:.c=.o) $(PRINTF_SRC:.c=.o)
 
 all: $(NAME)
+
+$(NAME): $(OBJ) $(HEADER)
+	ar -rcs $(NAME) $(OBJ)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(obj) $(header)
-	ar -rcs $(NAME) $(obj)
-
 clean:
-	rm -f $(obj)
+	rm -f $(OBJ)
 
 fclean: clean 
 	rm -f $(NAME)

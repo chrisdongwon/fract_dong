@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:53:51 by cwon              #+#    #+#              #
-#    Updated: 2025/01/16 18:31:29 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/16 18:54:34 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,9 @@ all: $(MANDATORY_EXEC)
 
 $(MANDATORY_EXEC): $(OBJ) $(LIBFT)
 	$(CC) $(OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
-	-lXext -lX11 -lm -lz $(LIBFT) -o $(MANDATORY_EXEC) 
+	-lXext -lX11 -lm -lz $(LIBFT) -o $(MANDATORY_EXEC)
+
+$(NAME): $(MANDATORY_EXEC)
 
 bonus: $(BONUS_EXEC)
 	@ln -sf $(BONUS_EXEC) $(NAME)
