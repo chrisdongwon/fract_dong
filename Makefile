@@ -6,14 +6,18 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:53:51 by cwon              #+#    #+#              #
-#    Updated: 2025/01/16 10:31:37 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/16 18:31:29 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
+MANDATORY_EXEC = fractol_mandatory
+BONUS_EXEC = fractol_bonus
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -O3
+
+LIBFT = libft/libft.a
 
 SRC = \
 	fractol.c \
@@ -32,22 +36,25 @@ BONUS_SRC = \
 	mandelbrot_bonus.c
 BONUS_OBJ = $(BONUS_SRC:.c=.o)
 
+all: $(MANDATORY_EXEC)
+	@ln -sf $(MANDATORY_EXEC) $(NAME)
+
+$(MANDATORY_EXEC): $(OBJ) $(LIBFT)
+	$(CC) $(OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
+	-lXext -lX11 -lm -lz $(LIBFT) -o $(MANDATORY_EXEC) 
+
+bonus: $(BONUS_EXEC)
+	@ln -sf $(BONUS_EXEC) $(NAME)
+
+$(BONUS_EXEC): $(BONUS_OBJ) $(LIBFT)
+	$(CC) $(BONUS_OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
+	-lXext -lX11 -lm -lz $(LIBFT) -o $(BONUS_EXEC)
+
 %.o: %.c
 	$(CC) $(CFLAGS) -I/usr/include -Iminilibx-linux -c $< -o $@
 
-all: $(NAME)
-
-$(NAME): $(OBJ)
+$(LIBFT):
 	make -C libft
-	$(CC) $(OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
-	-lXext -lX11 -lm -lz -o $(NAME) libft/libft.a
-
-bonus: $(NAME)_bonus
-
-$(NAME)_bonus: $(BONUS_OBJ)
-	make -C libft
-	$(CC) $(BONUS_OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
-	-lXext -lX11 -lm -lz -o $(NAME)_bonus libft/libft.a
 
 clean:
 	make clean -C libft
@@ -55,8 +62,8 @@ clean:
 
 fclean: clean
 	make fclean -C libft
-	rm -f $(NAME) $(NAME)_bonus
+	rm -f $(MANDATORY_EXEC) $(BONUS_EXEC) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

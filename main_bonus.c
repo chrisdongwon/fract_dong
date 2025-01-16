@@ -6,7 +6,7 @@
 /*   By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:40:25 by cwon              #+#    #+#             */
-/*   Updated: 2025/01/15 13:18:40 by cwon             ###   ########.fr       */
+/*   Updated: 2025/01/16 18:31:58 by cwon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	main(int argc, char **argv)
 	else
 	{
 		ft_printf("usage:\n");
-		ft_printf("./fractol_bonus mandelbrot\n");
-		ft_printf("./fractol_bonus julia [Re(c)] [Im(c)]\n");
-		ft_printf("./fractol_bonus burning_ship\n");
+		ft_printf("./fractol mandelbrot\n");
+		ft_printf("./fractol julia [Re(c)] [Im(c)]\n");
+		ft_printf("./fractol burning_ship\n");
 	}
 	return (0);
 }
