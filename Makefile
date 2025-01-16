@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:53:51 by cwon              #+#    #+#              #
-#    Updated: 2025/01/16 19:00:11 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/16 19:12:40 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRC = \
 	mandelbrot.c
 OBJ = $(SRC:.c=.o)
 
-BONUS_HEADER = fractol_bonus.
+BONUS_HEADER = fractol_bonus.h
 BONUS_SRC = \
 	burning_ship_bonus.c \
 	fractol_bonus.c \
