@@ -6,7 +6,7 @@
 #    By: cwon <cwon@student.42bangkok.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:53:51 by cwon              #+#    #+#              #
-#    Updated: 2025/01/16 18:54:34 by cwon             ###   ########.fr        #
+#    Updated: 2025/01/16 19:00:11 by cwon             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ CFLAGS = -Wall -Werror -Wextra -O3
 
 LIBFT = libft/libft.a
 
+HEADER = fractol.h
 SRC = \
 	fractol.c \
 	hook.c \
@@ -27,6 +28,7 @@ SRC = \
 	mandelbrot.c
 OBJ = $(SRC:.c=.o)
 
+BONUS_HEADER = fractol_bonus.
 BONUS_SRC = \
 	burning_ship_bonus.c \
 	fractol_bonus.c \
@@ -39,7 +41,7 @@ BONUS_OBJ = $(BONUS_SRC:.c=.o)
 all: $(MANDATORY_EXEC)
 	@ln -sf $(MANDATORY_EXEC) $(NAME)
 
-$(MANDATORY_EXEC): $(OBJ) $(LIBFT)
+$(MANDATORY_EXEC): $(OBJ) $(HEADER) $(LIBFT)
 	$(CC) $(OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
 	-lXext -lX11 -lm -lz $(LIBFT) -o $(MANDATORY_EXEC)
 
@@ -48,7 +50,7 @@ $(NAME): $(MANDATORY_EXEC)
 bonus: $(BONUS_EXEC)
 	@ln -sf $(BONUS_EXEC) $(NAME)
 
-$(BONUS_EXEC): $(BONUS_OBJ) $(LIBFT)
+$(BONUS_EXEC): $(BONUS_OBJ) $(BONUS_HEADER) $(LIBFT)
 	$(CC) $(BONUS_OBJ) -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux \
 	-lXext -lX11 -lm -lz $(LIBFT) -o $(BONUS_EXEC)
 
